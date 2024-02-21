@@ -162,6 +162,7 @@ local checkNuke = function(variant, netid)
         if variant:get(1):getString():find("That world is inaccessible") or
             variant:get(1):getString():lower():find("level ") then
             nuked = true
+            print("World got nuked")
         end
     end
 end
@@ -240,8 +241,9 @@ end
 --[[Advanced Function]]
 function warping(w, wid)
     local attemptWarp = 0
-    while not bot:isInWorld(w) or world:getTile(bot.x, bot.y).fg == 6 do
+    while (not bot:isInWorld(w) or world:getTile(bot.x, bot.y).fg == 6) and not nuked do
         addEvent(Event.variantlist, checkNuke)
+        sleep(delayJoinWorld)
         bot:sendPacket(3, "action|join_request\nname|" .. w .. "|" .. wid .. "\ninvitedWorld|0")
         listenEvents(math.floor(delayJoinWorld / 1000))
         if attemptWarp >= 5 then
@@ -253,38 +255,20 @@ function warping(w, wid)
             attemptWarp = attemptWarp + 1
             print("Warping attempt "..attemptWarp.."")
         end
-        if not nuked then
-            while not bot:isInWorld(w) or world:getTile(bot.x, bot.y).fg == 6 do
-                while bot.status ~= 1 do
-                    bot:connect()
-                    sleep(delayReconnect)
-                    if bot.status == 3 or bot.status == 4 then
-                        hookInfo("Bot got banned, going to remove bot")
-                        sleep(200)
-                        removeBot(bot.name:upper())
-                    end
-                end
-                bot:sendPacket(3, "action|join_request\nname|" .. w .. "|" .. wid .. "\ninvitedWorld|0")
-                sleep(delayJoinWorld)
-            end
-            if wid ~= "" then
-                while not bot:isInWorld(w) or world:getTile(bot.x, bot.y).fg == 6 do
-                    while bot.status ~= 1 do
-                        bot:connect()
-                        sleep(delayReconnect)
-                        if bot.status == 3 or bot.status == 4 then
-                            hookInfo("Bot got banned, going to remove bot")
-                            sleep(200)
-                            removeBot(bot.name:upper())
-                        end
-                    end
-                    bot:sendPacket(3, "action|join_request\nname|" .. w .. "|" .. wid .. "\ninvitedWorld|0")
-                    sleep(delayJoinWorld)
+    end
+    if wid ~= "" and not nuked then
+        while (not bot:isInWorld(w) or world:getTile(bot.x, bot.y).fg == 6) and not nuked do
+            while bot.status ~= 1 do
+                bot:connect()
+                sleep(delayReconnect)
+                if bot.status == 3 or bot.status == 4 then
+                    hookInfo("Bot got banned, going to remove bot")
+                    sleep(200)
+                    removeBot(bot.name:upper())
                 end
             end
-        elseif nuked then
-            nuked = false
-            sleep(1500)
+            bot:sendPacket(3, "action|join_request\nname|" .. w .. "|" .. wid .. "\ninvitedWorld|0")
+            sleep(delayJoinWorld)
         end
     end
 end
@@ -1179,6 +1163,7 @@ function main()
                     fossil(worldSplice)
                 elseif nuked then
                     statusWorld[worldSplice] = "NUKED"
+                    sleep(100)
                     nuked = false
                     sleep(delayReconnect * 2)
                 end
