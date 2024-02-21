@@ -25,8 +25,6 @@ loopz = 0
 bot.move_range = botMoveRange
 bot.move_interval = botMoveInterval
 bot.legit_mode = not hideAnimation
-
-
 loopIngfo = ""
 function Looping()
     loopIngfo = ""
@@ -87,7 +85,6 @@ function split(abc, def)
     end
     return t
 end
-
 function calls()
     local results = {}
     for _, splc in ipairs(worldSplice) do
@@ -157,7 +154,6 @@ function calls()
     end
     return results
 end
-
 local checkNuke = function(variant, netid)
     if variant:get(0):getString() == "OnConsoleMessage" then
         if variant:get(1):getString():find("That world is inaccessible") or
@@ -167,7 +163,6 @@ local checkNuke = function(variant, netid)
         end
     end
 end
-
 function checkBlock(tile)
     local tempTile = world:getTile(tile.x, tile.y + 1)
     if not tempTile.fg then
@@ -176,7 +171,6 @@ function checkBlock(tile)
     local collision = getInfo(tempTile.fg).collision_type
     return tempTile and (collision == 1 or collision == 2 or collision == 3)
 end
-
 function scanFloat(FloatItem)
     local float = 0
     for _, obj in pairs(world:getObjects()) do
@@ -273,9 +267,10 @@ function warping(w, wid)
         end
     end
 end
-
 function reconnect(wqrld, id, x, y)
     while world:getTile(bot.x, bot.y).fg == 6 or not bot:isInWorld(wqrld) do
+        print("checking if bot isn't in world or on white door")
+        sleep(100)
         while bot.status ~= 1 do
             bot:connect()
             sleep(delayReconnect)
@@ -297,6 +292,8 @@ function reconnect(wqrld, id, x, y)
     if bot.status ~= 1 then
         hookInfo("Reconnecting")
         sleep(100)
+        print("Reconnecting")
+        sleep(100)
         while bot.status ~= 1 do
             bot:connect()
             sleep(delayReconnect)
@@ -317,10 +314,12 @@ function reconnect(wqrld, id, x, y)
         end
         hookInfo("Reconnected")
         sleep(100)
+        print("Reconnected")
     end
 end
-
 function lastDrop(seedId1, seedId2, sprayId)
+    print("last dropping after all world finish or stock in storage is out of stock")
+    sleep(100)
     bot.auto_collect = false
     for _, str in ipairs(calls()) do
         local strW1, strWid1, strW2, strWid2, sprayW, sprayWid = str.worldStorage1, str.worldStorageId1, str.worldStorage2, str.worldStorageId2, str.worldSpray, str.worldSprayId
@@ -463,9 +462,10 @@ function lastDrop(seedId1, seedId2, sprayId)
         end
     end
 end
-
 function taking(seedId1, seedId2, sprayId)
     hookInfo("Taking")
+    sleep(100)
+    print("taking")
     sleep(100)
     for _, str in ipairs(calls()) do
         local strW1, strWid1, strW2, strWid2, sprayW, sprayWid, lastingStr1, lastingStr2, lastingSpray = str.worldStorage1, str.worldStorageId1, str.worldStorage2, str.worldStorageId2, str.worldSpray, str.worldSprayId, str.lastStr1, str.laststr2, str.lastSpray
@@ -702,10 +702,10 @@ function taking(seedId1, seedId2, sprayId)
         end
     end
 end
-
 function workInSelectedMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
     hookInfo("Working")
     sleep(100)
+    print("Work with selected mode")
     bot.auto_collect = false
     bot.ignore_gems = true
     for _, tile in pairs(world:getTiles()) do
@@ -1094,8 +1094,9 @@ function workInSelectedMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
         end
     end
 end
-
 function selectMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
+    print("Selecting Mode")
+    sleep(100)
     if onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed and not instantSpray then
         while checkIn1() > 0 do
             workInSelectedMode(seedId1, seedId2, sprayId,spliceW,spliceWid)
