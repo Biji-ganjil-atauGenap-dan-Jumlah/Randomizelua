@@ -887,50 +887,36 @@ function workInSelectedMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
                         end
                         if bot:isInTile(tile.x+2, tile.y) then
                             if tile.fg == 0 then
-                                if tileTrue(bot.x,bot.y, 0) then
-                                    for _, i in pairs(tileSplice) do
-                                        local check1v5 = getTile(bot.x+i, bot.y)
-                                        if 0 ~= world:getTile(bot.x + i, bot.y + 1).fg  and 0 == check1v5.fg and check1v5.fg ~= seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) then 
-                                            bot:place(bot.x+i, bot.y, seedId1)
-                                            sleep(delayFirstSeed == 0 and math.random(120,150) or delayFirstSeed)
-                                            reconnect(spliceW, spliceWid, tile.x, tile.y)
-                                        end
+                                for _, i in pairs(tileSplice) do
+                                    local check1v5, check2v5 = world:getTile(bot.x+i, bot.y), world:getTile(bot.x+i, bot.y+2)
+                                    if 0 ~= world:getTile(bot.x + i, bot.y + 1).fg  and 0 == check1v5.fg and check1v5.fg ~= seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) then 
+                                        bot:place(bot.x+i, bot.y, seedId1)
+                                        sleep(delayFirstSeed == 0 and math.random(120,150) or delayFirstSeed)
+                                        reconnect(spliceW, spliceWid, tile.x, tile.y)
                                     end
-                                end
-                                if tileTrue(bot.x,bot.y+2, 0) then
-                                    for _, i in pairs(tileSplice) do
-                                        local check2v5 =  getTile(bot.x+i, bot.y+2)
-                                        if 0 == check2v5.fg and check2v5.fg ~= seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check2v5) then 
-                                            bot:place(bot.x+i, bot.y+2, seedId1)
-                                            sleep(delayFirstSeed == 0 and math.random(120,150) or delayFirstSeed)
-                                            reconnect(spliceW, spliceWid, tile.x, tile.y)
-                                        end
+                                    if 0 ~= world:getTile(bot.x + i, bot.y + 3).fg and 0 == check2v5.fg and check2v5.fg ~= seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check2v5) then 
+                                        bot:place(bot.x+i, bot.y+2, seedId1)
+                                        sleep(delayFirstSeed == 0 and math.random(120,150) or delayFirstSeed)
+                                        reconnect(spliceW, spliceWid, tile.x, tile.y)
                                     end
                                 end
                             elseif tile.fg == seedId1 then
-                                if tileTrue(bot.x,bot.y, seedId1) then
-                                    for _, i in pairs(tileSplice) do
-                                        local check1v5 = getTile(bot.x+i, bot.y)
-                                        if 0 ~= world:getTile(bot.x + i, bot.y + 1).fg and check1v5.fg == seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) and not check1v5:canHarvest() then
-                                            bot:place(bot.x+i, bot.y, seedId2)
-                                            sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
-                                            reconnect(spliceW, spliceWid, tile.x, tile.y)
-                                        end
+                                for _, i in pairs(tileSplice) do
+                                    local check1v5, check2v5 = world:getTile(bot.x+i, bot.y), world:getTile(bot.x+i, bot.y+2)
+                                    if 0 ~= world:getTile(bot.x + i, bot.y + 1).fg and check1v5.fg == seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) and not check1v5:canHarvest() then
+                                        bot:place(bot.x+i, bot.y, seedId2)
+                                        sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
+                                        reconnect(spliceW, spliceWid, tile.x, tile.y)
                                     end
-                                end
-                                if tileTrue(bot.x,bot.y, seedId1) then
-                                    for _, i in pairs(tileSplice) do
-                                        local check2v5 =  getTile(bot.x+i, bot.y+2)
-                                        if check2v5.fg == seedId1 and world:hasAccess(bot.x + i, bot.y+2) ~= 0 and checkBlock(check2v5) and not check2v5:canHarvest() then
-                                            bot:place(bot.x+i, bot.y+2, seedId2)
-                                            sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
-                                            reconnect(spliceW, spliceWid, tile.x, tile.y)
-                                        end
+                                    if 0 ~= world:getTile(bot.x + i, bot.y + 3).fg  and check2v5.fg == seedId1 and world:hasAccess(bot.x + i, bot.y+2) ~= 0 and checkBlock(check2v5) and not check2v5:canHarvest() then
+                                        bot:place(bot.x+i, bot.y+2, seedId2)
+                                        sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
+                                        reconnect(spliceW, spliceWid, tile.x, tile.y)
                                     end
                                 end
                             elseif tile.fg == seedIdToInstantSpray and instantSpray then
                                 for _, i in pairs(tileSplice) do
-                                    local check1v5, check2v5 = getTile(bot.x+i, bot.y), getTile(bot.x+i, bot.y+2)
+                                    local check1v5, check2v5 =  world:getTile(bot.x+i, bot.y),  world:getTile(bot.x+i, bot.y+2)
                                     if not check1v5:hasFlag(4096) and check1v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x + i, bot.y) ~= 0 and not check1v5:canHarvest() then
                                         bot:place(bot.x+i, bot.y, sprayId)
                                         sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
@@ -947,7 +933,7 @@ function workInSelectedMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
                     end
                 else
                     while (tile.fg == 0 or (tile.fg == seedId1 and not tile:canHarvest()) or (instantSpray and tile.fg == seedIdToInstantSpray and not tile:canHarvest())) and not tile:hasFlag(4096) and checkBlock(world:getTile(tile.x, tile.y)) and world:hasAccess(tile.x, tile.y) ~= 0 do
-                        if #bot:getPath(tile.x,tile.y) > 5 then
+                        if #bot:getPath(tile.x,tile.y) > 1 then
                             bot:findPath(tile.x, tile.y)
                             sleep(200)
                             reconnect(spliceW, spliceWid, tile.x, tile.y)
@@ -957,32 +943,32 @@ function workInSelectedMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
                             reconnect(spliceW, spliceWid, tile.x, tile.y)
                         end
                         if bot:isInTile(tile.x, tile.y) then
-                            local check1v5, check2v5 = getTile(bot.x, bot.y), getTile(bot.x, bot.y+2)
+                            local check1v5, check2v5 = world:getTile(bot.x, bot.y), world:getTile(bot.x, bot.y+2)
                             if tile.fg == 0 then
-                                if not check1v5:hasFlag(4096) and 0 == check1v5.fg and check1v5.fg ~= seedId1 and world:hasAccess(bot.x, bot.y) ~= 0 and checkBlock(check1v5) then
+                                if 0 == check1v5.fg and check1v5.fg ~= seedId1 and world:hasAccess(bot.x, bot.y) ~= 0 and checkBlock(check1v5) then
                                     bot:place(bot.x, bot.y, seedId1)
                                     sleep(delayFirstSeed == 0 and math.random(115,125) or delayFirstSeed)
                                 end
-                                if not check2v5:hasFlag(4096) and 0 == check2v5.fg and check2v5.fg ~= seedId1 and world:hasAccess(bot.x, bot.y+2) ~= 0 and checkBlock(check2v5) then
+                                if 0 == check2v5.fg and check2v5.fg ~= seedId1 and world:hasAccess(bot.x, bot.y+2) ~= 0 and checkBlock(check2v5) then
                                     bot:place(bot.x, bot.y+2, seedId1)
                                     sleep(delayFirstSeed == 0 and math.random(115,125) or delayFirstSeed)
                                 end
                             elseif tile.fg == seedId1 then
-                                if not check1v5:hasFlag(4096) and check1v5.fg == seedId1 and world:hasAccess(bot.x, bot.y) ~= 0 and checkBlock(check1v5) and not check1v5:canHarvest() then
+                                if check1v5.fg == seedId1 and world:hasAccess(bot.x, bot.y) ~= 0 and checkBlock(check1v5) and not check1v5:canHarvest() then
                                     bot:place(bot.x, bot.y, seedId2)
                                     sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
                                 end
-                                if not check2v5:hasFlag(4096) and check2v5.fg == seedId1 and world:hasAccess(bot.x, bot.y+2) ~= 0 and checkBlock(check2v5) and not check2v5:canHarvest() then
+                                if check2v5.fg == seedId1 and world:hasAccess(bot.x, bot.y+2) ~= 0 and checkBlock(check2v5) and not check2v5:canHarvest() then
                                     bot:place(bot.x, bot.y+2, seedId2)
                                     sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
                                 end
                             elseif tile.fg == seedIdToInstantSpray and instantSpray and not tile:canHarvest() then
-                                if not check1v5:hasFlag(4096) and check1v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x, bot.y) ~= 0 and not check1v5:canHarvest() then
+                                if check1v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x, bot.y) ~= 0 and not check1v5:canHarvest() then
                                     bot:place(bot.x+i, bot.y, sprayId)
                                     sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
                                     reconnect(spliceW, spliceWid, tile.x, tile.y)
                                 end
-                                if not check2v5:hasFlag(4096) and check2v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x, bot.y+2) ~= 0 and not check2v5:canHarvest() then
+                                if check2v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x, bot.y+2) ~= 0 and not check2v5:canHarvest() then
                                     bot:place(bot.x+i, bot.y, sprayId)
                                     sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
                                     reconnect(spliceW, spliceWid, tile.x, tile.y)
@@ -1005,7 +991,7 @@ function workInSelectedMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
                     if bot:isInTile(tile.x, tile.y) then
                         if tile.fg == 0 then
                             for i = 0, 2 do
-                                local check1v5 = getTile(bot.x+i, bot.y)
+                                local check1v5 = world:getTile(bot.x+i, bot.y)
                                 if 0 == check1v5.fg and check1v5.fg ~= seedId1 and world:hasAccess(bot.x, bot.y) ~= 0 and checkBlock(check1v5) then
                                     bot:place(bot.x+i, bot.y, seedId1)
                                     sleep(delayFirstSeed == 0 and math.random(115,125) or delayFirstSeed)
@@ -1013,7 +999,7 @@ function workInSelectedMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
                             end
                         elseif tile.fg == seedId1 then
                             for i = 0, 2 do
-                                local check1v5 = getTile(bot.x+i, bot.y)
+                                local check1v5 = world:getTile(bot.x+i, bot.y)
                                 if check1v5.fg == seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) and not check1v5:canHarvest() then
                                     bot:place(bot.x+i, bot.y, seedId2)
                                     sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
@@ -1022,8 +1008,8 @@ function workInSelectedMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
                             end
                         elseif tile.fg == seedIdToInstantSpray and instantSpray then
                             for i = 0, 2 do
-                                local check1v5, fire1v5 = getTile(bot.x+i, bot.y), world:getTile(bot.x+i, bot.y)
-                                if not fire1v5:hasFlag(4096) and check1v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x + i, bot.y) ~= 0 and not check1v5:canHarvest() then
+                                local check1v5 = world:getTile(bot.x+i, bot.y)
+                                if check1v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x + i, bot.y) ~= 0 and not check1v5:canHarvest() then
                                     bot:place(bot.x+i, bot.y, sprayId)
                                     sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
                                     reconnect(spliceW, spliceWid, tile.x, tile.y)
@@ -1172,7 +1158,7 @@ end
 
 --[[execution]]
 function main()
-    if AporiaStore == "https://discord.gg/cm3Bs8NxGk" then
+    if AporiaStore == "https://discord.gg/cm3Bs8NxGk" and checkUser(getUsername()) then
         while true do
             for _, run in ipairs(calls()) do
                 local seedId1, seedId2, worldSplice, worldSpliceId, sprayId, lastSplice = run.seedId1, run.seedId2, run.worldSplice, run.worldSpliceId, run.sprayId, run.lastSplice
