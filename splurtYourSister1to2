@@ -7,7 +7,1239 @@ world = bot:getWorld()
 inventory = bot:getInventory()
 function getIndex()
     for i, botak in pairs(getBots()) do
+        if botak.name == bot.name tileSplice = {}
+statusWorld = {}
+waktu = {}
+fossCheck = {}
+bot = getBot()
+world = bot:getWorld()
+inventory = bot:getInventory()
+function getIndex()
+    for i, botak in pairs(getBots()) do
         if botak.name == bot.name then
+            return i
+        end
+    end
+end
+worldSplice = Bots[getIndex()].worldList
+modeStorage = Bots[getIndex()].modeStorage
+worldFirstStorage = Bots[getIndex()].worldFirstStorage
+worldSecondStorage = Bots[getIndex()].worldSecondStorage
+URLwebhook = Bots[getIndex()].URLwebhook
+messageId = Bots[getIndex()].messageId
+spliceRange = 5
+nuked = false
+splcIngfo = ""
+loopz = 0
+bot.move_range = botMoveRange
+bot.move_interval = botMoveInterval
+bot.legit_mode = not hideAnimation
+loopIngfo = ""
+function Looping()
+    loopIngfo = ""
+    if not loopMode then
+        loopIngfo = loopIngfo .. "False"
+    else
+        loopIngfo = loopIngfo .. "" .. loopz .. " loop"
+    end
+end
+for i = math.floor(spliceRange / 2), 1, -1 do
+    i = i * -1
+    table.insert(tileSplice, i)
+end
+for i = 0, math.ceil(spliceRange / 2) - 1 do
+    table.insert(tileSplice, i)
+end
+while bot.status ~= 1 do
+    bot:connect()
+    sleep(delayReconnect)
+end
+function tileTrue(x, y, Id)
+    for _, num in pairs(tileSplice) do
+        if world:getTile(x + num, y).fg == Id and world:getTile(x + num, y).bg == Id then
+            return true
+        end
+    end
+    return false
+end
+function tileFalse(x, y, Id)
+    for _, num in pairs(tileSplice) do
+        if world:getTile(x + num, y).fg == Id or world:getTile(x + num, y).bg == Id then
+            return true
+        end
+    end
+    return false
+end
+function checkIn1()
+    local count = 0
+    for _, tile in pairs(world:getTiles()) do
+        if not tile:hasFlag(4096) and tile.fg == 0 and checkBlock(world:getTile(tile.x, tile.y)) and world:hasAccess(tile.x, tile.y) ~= 0 then
+            count = count + 1
+        end
+    end
+    return count
+end
+function checkIn2(itmId)
+    local count = 0
+    for _, tile in pairs(world:getTiles()) do
+        if not tile:hasFlag(4096) and not tile:canHarvest() and tile.fg == itmId and world:hasAccess(tile.x, tile.y) ~= 0 and checkBlock(world:getTile(tile.x, tile.y)) then
+            count = count + 1
+        end
+    end
+    return count
+end
+pekepeke = zSUP8YGBZ1ABuA5nfqNytLohL0CzZsrWHrRreBHNbfsJoH4PhizMXf2ZAvjrOad8To2PCRAGLxKbP1r5qiItWI6QdDHlH1V4C7RRGk1zjPVZ0iXeajFg48DG38FeM4Jr0WG8ohH2rwFWxiFaS0PlcDEEQBESZGhZRyptrjfFx6Tmi6aa8lKanGPGkaIVcisjpbOFypyUjkpVpjgMeNoe09bK1ezyEigD9UhBWH9GcUSO5nUPWZoD68qE67fCuIzO8uZETQxzhZSMIdyk5C7wL8lnrl5U7MUztOtsBnGBdUHD8Ocui84pVFQYAkDjaPlSu6Q7tJWiQfBDwFh0vvxDLOVKppB1Jybh
+function checkUser(usr)
+    for _, owner in pairs(pekepeke) do
+        if owner:upper() == usr:upper() then
+            return true
+        end
+    end
+    return false
+end
+
+--[[Simple Function]]
+function getBotStatus()     if getBot().status == 0 then         return "Offline"     elseif getBot().status == 1 then         return "Online"     elseif getBot().status == 2 then         return "WrongPassID"     elseif getBot().status == 3 then         return "Banned"     elseif getBot().status == 4 then         return "BannedLocation"     elseif getBot().status == 5 then         return "UpdateVersion"     elseif getBot().status == 6 then         return "AAP"     elseif getBot().status == 7 then         return "Overload"     elseif getBot().status == 8 then         return "TooManyLogin"     elseif getBot().status == 9 then         return "Maintenance"     elseif getBot().status == 10 then         return "ServerBusy"     elseif getBot().status == 11 then         return "GuestLimit"     elseif getBot().status == 12 then         return "HttpBlock"     elseif getBot().status == 13 then         return "BadNameLength"     elseif getBot().status == 14 then         return "InvalidAccount"     elseif getBot().status == 15 then         return "Ercon"     elseif getBot().status == 16 then         return "LoginFail"     elseif getBot().status == 17 then         return "CaptchaLink"     elseif getBot().status == 18 then         return "ModEntered"     elseif getBot().status == 19 then         return "HighLoad"     else         return "Unknown"     end end
+function split(abc, def)
+    if def == nil then
+        def = "%s"
+    end
+    local t = {}
+    for str in string.gmatch(abc, "([^" .. def .. "]+)") do
+        table.insert(t, str)
+    end
+    return t
+end
+function calls()
+    local results = {}
+    for _, splc in ipairs(worldSplice) do
+        for _, str1 in ipairs(worldFirstStorage) do
+            for _, str2 in ipairs(worldSecondStorage) do
+                for _, spraying in ipairs(worldSpray) do
+                    --[[get Last Storage 1]]
+                    local getLastStr1 = #worldFirstStorage
+                    local countLastStr1 = worldFirstStorage[getLastStr1]
+                    local splitLastStr1 = split(countLastStr1, customSeparate)
+                    local resultLast1 = splitLastStr1[1]:upper()
+                    --[[get last storage 2]]
+                    local getLastStr2 = #worldSecondStorage
+                    local countLastStr2 = worldSecondStorage[getLastStr2]
+                    local splitLastStr2 = split(countLastStr2, customSeparate)
+                    local resultLast2 = splitLastStr2[1]:upper()
+                    --[[get last spray]]
+                    local getLastSpray = #worldSpray
+                    local countLastSpray = worldSpray[getLastSpray]
+                    local splitLastSpray = split(countLastSpray, customSeparate)
+                    local resultLastSpray = splitLastSpray[2]:upper()
+                    --[[get last SpliceWorld]]
+                    local getLastSplice = #worldSplice
+                    local countLastSplice = worldSplice[getLastSplice]
+                    local splitLastSplice = split(countLastSplice, customSeparate)
+                    local resultLastSplice = splitLastSplice[3]:upper()
+                    --[[World splice]]
+                    local resultSplice = split(splc, customSeparate)
+                    local firstSeedId = tonumber(resultSplice[1])
+                    local secondSeedId = tonumber(resultSplice[2])
+                    local splice = resultSplice[3]:upper()
+                    local spliceId = resultSplice[4]:upper()
+                    --[[world str 1]]
+                    local resultStorage1 = split(str1, customSeparate)
+                    local storage1 = resultStorage1[1]:upper()
+                    local storageId1 = resultStorage1[2]:upper()
+                    --[[world str 2]]
+                    local resultStorage2 = split(str2, customSeparate)
+                    local storage2 = resultStorage2[1]:upper()
+                    local storageId2 = resultStorage2[2]:upper()
+                    --[[world spray]]
+                    local resultSpray = split(spraying, customSeparate)
+                    local sprayId = tonumber(resultSpray[1])
+                    local spray = resultSpray[2]:upper()
+                    local sprayIdw = resultSpray[3]:upper()
+                    --[[result table]]
+                    table.insert(results, {
+                        seedId1 = firstSeedId,
+                        seedId2 = secondSeedId,
+                        worldSplice = splice,
+                        worldSpliceId = spliceId,
+                        worldStorage1 = storage1,
+                        worldStorageId1 = storageId1,
+                        worldStorage2 = storage2,
+                        worldStorageId2 = storageId2,
+                        sprayId = sprayId,
+                        worldSpray = spray,
+                        worldSprayId = sprayIdw,
+                        lastStr1 = resultLast1,
+                        lastStr2 = resultLast2,
+                        lastSpray = resultLastSpray,
+                        lastSplice = resultLastSplice
+                    })
+                end
+            end
+        end
+    end
+    return results
+end
+local checkNuke = function(variant, netid)
+    if variant:get(0):getString() == "OnConsoleMessage" then
+        if variant:get(1):getString():find("That world is inaccessible") or
+            variant:get(1):getString():lower():find("level ") then
+            nuked = true
+            print("World got nuked")
+        end
+    end
+end
+function checkBlock(tile)
+    local tempTile = getTile(tile.x, tile.y + 1)
+    if not tempTile.fg then
+        return false
+    end
+    local collision = getInfo(tempTile.fg).collision_type
+    return tempTile and (collision == 1 or collision == 2 or collision == 3)
+end
+function scanFloat(FloatItem)
+    local float = 0
+    for _, obj in pairs(world:getObjects()) do
+        if obj.id == FloatItem then
+            float = float + obj.count
+        end
+    end
+    return float
+end
+
+--[[webhuk]]
+function fossil(list)
+    local m = 0
+    fossCheck[list] = 0
+    for _, til in pairs(getBot():getWorld():getTiles()) do
+        if til.fg == 3918 then
+            m = m + 1
+            fossCheck[list] = m
+        end
+    end
+    return m
+end
+function timeLapse()
+    splcIngfo = ""
+    for _, web in ipairs(calls()) do
+        worldLz = web.worldSplice
+        if censorWorld then
+            local pek = string.sub(worldLz,1,numberCensorWord)
+            if pek then
+                splcIngfo = splcIngfo .."\n"..pek.."|"..(waktu[worldLz] or "?").."|"..(statusWorld[worldLz] or "?").."|"..(fossCheck[worldLz] or "0")
+            end
+        else
+            splcIngfo = splcIngfo .."\n"..worldLz.."|"..(waktu[worldLz] or "?").."|"..(statusWorld[worldLz] or "?").."|"..(fossCheck[worldLz] or "0")
+        end
+    end
+end    
+function hookInfo(info)
+    if webhookActive and typeWebhook == "spam" then
+        wh = Webhook.new(URLwebhook)
+        wh.content = "<@" .. userTagId .. ">"
+        wh.embed1.use = true
+        wh.embed1.author.name = "Script Splice by Aporia Store"
+        wh.embed1.author.icon_url = "https://cdn.discordapp.com/emojis/1192409800139608094.webp?size=40&quality=lossless"
+        wh.embed1.author.url = "https://discord.gg/cm3Bs8NxGk"
+        wh.embed1.color = bot.status == 1 and 65280 or 16711680
+        wh.embed1.footer.text = "Last Updated: " .. (os.date("!%a, %b %d, %Y at %I:%M %p", os.time() + 7 * 60 * 60)) ..""
+        wh.embed1.description = "<:downloadremovebgpreview1:1103285738088443926> **[Bot GrowID]: "..getBot().name.."**\n<:emoji101:1035821144068071484> **[Bot Status(Ping)]: " .. getBotStatus() .. "(" .. getBot():getPing() .. ")**\n<:sc:1034751373041999872> **[Bot Task(World)]: "..info.."(".. getBot():getWorld().name ..")**\n\n<:wold:909756145202233355> **WORLD SECTION [world|(hour:min)|status|fossil] loop: " .. loopIngfo .."**\n```" .. splcIngfo .. "```"
+        wh:send()
+    elseif webhookActive and typeWebhook == "edit" then
+        wh = Webhook.new(URLwebhook .. "/messages/" .. messageId)
+        wh.content = "<@" .. userTagId .. ">"
+        wh.embed1.use = true
+        wh.embed1.author.name = "Script Splice by Aporia Store"
+        wh.embed1.author.icon_url = "https://cdn.discordapp.com/emojis/1192409800139608094.webp?size=40&quality=lossless"
+        wh.embed1.author.url = "https://discord.gg/cm3Bs8NxGk"
+        wh.embed1.color =  bot.status == 1 and 65280 or 16711680
+        wh.embed1.footer.text = "Last Updated: " .. (os.date("!%a, %b %d, %Y at %I:%M %p", os.time() + 7 * 60 * 60)) ..""
+        wh.embed1.description = "<:downloadremovebgpreview1:1103285738088443926> **[Bot GrowID]: "..getBot().name.."**\n<:emoji101:1035821144068071484> **[Bot Status(Ping)]: " .. getBotStatus() .. "(" .. getBot():getPing() .. ")**\n<:sc:1034751373041999872> **[Bot Task(World)]: "..info.."(".. getBot():getWorld().name ..")**\n\n<:wold:909756145202233355> **WORLD SECTION [world|(hour:min)|status|fossil] loop: " .. loopIngfo .."**\n```" .. splcIngfo .. "```"
+        wh:send()
+    end
+end
+
+--[[Advanced Function]]
+function warping(w, wid)
+    local attemptWarp = 0
+    while (not bot:isInWorld(w) or world:getTile(bot.x, bot.y).fg == 6) and not nuked do
+        addEvent(Event.variantlist, checkNuke)
+        sleep(delayJoinWorld)
+        bot:sendPacket(3, "action|join_request\nname|" .. w .. "|" .. wid .. "\ninvitedWorld|0")
+        listenEvents(math.floor(delayJoinWorld / 1000))
+        if attemptWarp >= 5 then
+            print("HardWarp detected, trying in 5min")
+            sleep(1000)
+            hookInfo("HardWarp detected [trying in 5min]")
+            sleep(300000)
+        else
+            attemptWarp = attemptWarp + 1
+            print("Warping attempt "..attemptWarp.."")
+        end
+    end
+    if wid ~= "" and not nuked then
+        while (not bot:isInWorld(w) or world:getTile(bot.x, bot.y).fg == 6) and not nuked do
+            while bot.status ~= 1 do
+                bot:connect()
+                sleep(delayReconnect)
+                if bot.status == 3 or bot.status == 4 then
+                    hookInfo("Bot got banned, going to remove bot")
+                    sleep(200)
+                    removeBot(bot.name:upper())
+                end
+            end
+            bot:sendPacket(3, "action|join_request\nname|" .. w .. "|" .. wid .. "\ninvitedWorld|0")
+            sleep(delayJoinWorld)
+        end
+    end
+end
+function reconnect(wqrld, id, x, y)
+    while world:getTile(bot.x, bot.y).fg == 6 or not bot:isInWorld(wqrld) do
+        print("checking if bot isn't in world or on white door")
+        sleep(100)
+        while bot.status ~= 1 do
+            bot:connect()
+            sleep(delayReconnect)
+            if bot.status == 3 or bot.status == 4 then
+                hookInfo("Bot got banned, going to remove bot")
+                sleep(100)
+                removeBot(bot.name:upper())
+            end
+        end
+        warping(wqrld, id)
+        sleep(100)
+        if x and y then
+            while not bot:isInTile(x, y) do
+                bot:findPath(x, y)
+                sleep(100)
+            end
+        end
+    end
+    if bot.status ~= 1 then
+        hookInfo("Reconnecting")
+        sleep(100)
+        print("Reconnecting")
+        sleep(100)
+        while bot.status ~= 1 do
+            bot:connect()
+            sleep(delayReconnect)
+            if bot.status == 3 or bot.status == 4 then
+                hookInfo("Bot got banned, going to remove bot")
+                sleep(100)
+                removeBot(bot.name:upper())
+            end
+        end
+        sleep(100)
+        warping(wqrld, id)
+        sleep(100)
+        if x and y then
+            while not bot:isInTile(x, y) do
+                bot:findPath(x, y)
+                sleep(100)
+            end
+        end
+        hookInfo("Reconnected")
+        sleep(100)
+        print("Reconnected")
+    end
+end
+function lastDrop(seedId1, seedId2, sprayId)
+    print("last dropping after all world finish or stock in storage is out of stock")
+    sleep(100)
+    bot.auto_collect = false
+    for _, str in ipairs(calls()) do
+        local strW1, strWid1, strW2, strWid2, sprayW, sprayWid = str.worldStorage1, str.worldStorageId1, str.worldStorage2, str.worldStorageId2, str.worldSpray, str.worldSprayId
+        checkUp = world:getTile(bot.x, bot.y - 1).fg ~= 0
+        if onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed and not instantSpray then
+            if inventory:getItemCount(seedId1) > 0 then
+                while not bot:isInWorld(strW1) do
+                    warping(strW1, strWid1)
+                    sleep(100)
+                    reconnect(strW1, strWid1)
+                end
+                while inventory:getItemCount(seedId1) > 0 and bot:isInWorld(strW1) do
+                    if checkUP then
+                        bot:moveRight()
+                    else
+                        bot:moveUp()
+                    end
+                    bot:setDirection()
+                    sleep(100)
+                    bot:drop(seedId1, inventory:getItemCount(seedId1))
+                    sleep(100)
+                    reconnect(strW1, strWid1)
+                end
+            end
+        elseif not onlyPlantWithFirstSeed and onlySpliceWithSecondSeed and not instantSpray then
+            if inventory:getItemCount(seedId2) > 0 then
+                while not bot:isInWorld(strW2) do
+                    warping(strW2, strWid2)
+                    sleep(100)
+                    reconnect(strW2, strWid2)
+                end
+                while inventory:getItemCount(seedId2) > 0 and bot:isInWorld(strW2) do
+                    if checkUP then
+                        bot:moveRight()
+                    else
+                        bot:moveUp()
+                    end
+                    bot:setDirection()
+                    sleep(100)
+                    bot:drop(seedId2, inventory:getItemCount(seedId2))
+                    sleep(100)
+                    reconnect(strW2, strWid2)
+                end
+            end
+        elseif modeStorage == "same" and not onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed then
+            if inventory:getItemCount(seedId1) > 0 then
+                while not bot:isInWorld(strW1) do
+                    warping(strW1, strWid1)
+                    sleep(100)
+                    reconnect(strW1, strWid1)
+                end
+                while inventory:getItemCount(seedId1) > 0 and bot:isInWorld(strW1) do
+                    if checkUP then
+                        bot:moveRight()
+                    else
+                        bot:moveUp()
+                    end
+                    bot:setDirection()
+                    sleep(100)
+                    bot:drop(seedId1, inventory:getItemCount(seedId1))
+                    sleep(100)
+                    reconnect(strW1, strWid1)
+                end
+            end
+            if inventory:getItemCount(seedId2) > 0 then
+                while not bot:isInWorld(strW1) do
+                    warping(strW1, strWid1)
+                    sleep(100)
+                    reconnect(strW1, strWid1)
+                end
+                while inventory:getItemCount(seedId2) > 0 and bot:isInWorld(strW1) do
+                    if checkUP then
+                        bot:moveRight()
+                    else
+                        bot:moveUp()
+                    end
+                    bot:setDirection()
+                    sleep(100)
+                    bot:drop(seedId2, inventory:getItemCount(seedId2))
+                    sleep(100)
+                    reconnect(strW1, strWid1)
+                end
+            end
+        elseif modeStorage == "diff" and not onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed then
+            if inventory:getItemCount(seedId1) > 0 then
+                while not bot:isInWorld(strW1) do
+                    warping(strW1, strWid1)
+                    sleep(100)
+                end
+                while inventory:getItemCount(seedId1) > 0 and bot:isInWorld(strW1) do
+                    if checkUP then
+                        bot:moveRight()
+                    else
+                        bot:moveUp()
+                    end
+                    bot:setDirection()
+                    sleep(100)
+                    bot:drop(seedId1, inventory:getItemCount(seedId1))
+                    sleep(100)
+                    reconnect(strW1, strWid1)
+                end
+            end
+            if inventory:getItemCount(seedId2) > 0 then
+                while not bot:isInWorld(strW2) do
+                    warping(strW2, strWid2)
+                    sleep(100)
+                end
+                while inventory:getItemCount(seedId2) > 0 and bot:isInWorld(strW2) do
+                    if checkUP then
+                        bot:moveRight()
+                    else
+                        bot:moveUp()
+                    end
+                    bot:setDirection()
+                    sleep(100)
+                    bot:drop(seedId2, inventory:getItemCount(seedId2))
+                    sleep(100)
+                    reconnect(strW2, strWid2)
+                end
+            end
+        end
+        if (instantSpray or onlySpray) and inventory:getItemCount(sprayId) > 0 then
+            while not bot:isInWorld(sprayW) do
+                warping(sprayW,sprayWid)
+                sleep(100)
+                reconnect(sprayW,sprayWid)
+            end
+            while inventory:getItemCount(sprayId) > 0 and bot:isInWorld(sprayW) do
+                if checkUP then
+                    bot:moveRight()
+                else
+                    bot:moveUp()
+                end
+                bot:setDirection()
+                sleep(100)
+                bot:drop(sprayId, inventory:getItemCount(sprayId))
+                sleep(100)
+                reconnect(sprayW,sprayWid)
+            end
+        end
+    end
+end
+function taking(seedId1, seedId2, sprayId)
+    hookInfo("Taking")
+    sleep(100)
+    print("taking")
+    sleep(100)
+    for _, str in ipairs(calls()) do
+        local strW1, strWid1, strW2, strWid2, sprayW, sprayWid, lastingStr1, lastingStr2, lastingSpray = str.worldStorage1, str.worldStorageId1, str.worldStorage2, str.worldStorageId2, str.worldSpray, str.worldSprayId, str.lastStr1, str.laststr2, str.lastSpray
+        if onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed and not instantSpray and not onlySpray then
+            if inventory:getItemCount(seedId1) <= 0 then
+                while not bot:isInWorld(strW1) do
+                    warping(strW1, strWid1)
+                    sleep(100)
+                    reconnect(strW1, strWid1)
+                end
+                if scanFloat(seedId1) > 0 and bot:isInWorld(strW1) then
+                    for _, obj in pairs(world:getObjects()) do
+                        if obj.id == seedId1 and inventory:getItemCount(seedId1) <= 0 then
+                            while not bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) and
+                                inventory:getItemCount(seedId1) <= 0 do
+                                bot:findPath(math.floor(obj.x / 32), math.floor(obj.y / 32))
+                                sleep(100)
+                                reconnect(strW1, strWid1, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                            while inventory:getItemCount(seedId1) <= 0 and
+                                bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) do
+                                bot:collectObject(obj.oid, 10)
+                                sleep(100)
+                                reconnect(strW1, strWid1, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                        end
+                        if inventory:getItemCount(seedId1) > 0 then
+                            break
+                        end
+                    end
+                elseif strW1 == lastingStr1 and scanFloat(seedId1) <= 0 then
+                    hookInfo("Out of stock seed with mode onlyPlant, Going to stop Bot")
+                    sleep(100)
+                    lastDrop(seedId1, seedId2, sprayId)
+                    sleep(100)
+                    bot:leaveWorld()
+                    sleep(100)
+                    bot:stopScript()
+                end
+            end
+        elseif not onlyPlantWithFirstSeed and onlySpliceWithSecondSeed and not instantSpray and not onlySpray then
+            if inventory:getItemCount(seedId2) <= 0 then
+                while not bot:isInWorld(strW2) do
+                    warping(strW2, strWid2)
+                    sleep(100)
+                    reconnect(strW2, strWid2)
+                end
+                if scanFloat(seedId2) > 0 and bot:isInWorld(strW2) then
+                    for _, obj in pairs(world:getObjects()) do
+                        if obj.id == seedId2 and inventory:getItemCount(seedId2) <= 0 then
+                            while not bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) and
+                                inventory:getItemCount(seedId2) <= 0 do
+                                bot:findPath(math.floor(obj.x / 32), math.floor(obj.y / 32))
+                                sleep(100)
+                                reconnect(strW2, strWid2, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                            while inventory:getItemCount(seedId2) <= 0 and
+                                bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) do
+                                bot:collectObject(obj.oid, 10)
+                                sleep(100)
+                                reconnect(strW2, strWid2, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                        end
+                        if inventory:getItemCount(seedId2) > 0 then
+                            break
+                        end
+                    end
+                elseif strW2 == lastingStr2 and scanFloat(seedId2) <= 0 then
+                    hookInfo("Out of stock seed with mode onlySplice, Going to stop Bot")
+                    sleep(100)
+                    lastDrop(seedId1, seedId2, sprayId)
+                    sleep(100)
+                    bot:leaveWorld()
+                    sleep(100)
+                    bot:stopScript()
+                end
+            end
+        elseif modeStorage == "same" and not onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed and not onlySpray then
+            if inventory:getItemCount(seedId1) <= 0 or inventory:getItemCount(seedId2) <= 0 then
+                while not bot:isInWorld(strW1) do
+                    warping(strW1, strWid1)
+                    sleep(100)
+                    reconnect(strW1, strWid1)
+                end
+                if scanFloat(seedId1) > 0 and scanFloat(seedId2) > 0 then
+                    for _, obj in pairs(world:getObjects()) do
+                        if obj.id == seedId1 and inventory:getItemCount(seedId1) <= 0 then
+                            while not bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) and
+                                inventory:getItemCount(seedId1) <= 0 do
+                                bot:findPath(math.floor(obj.x / 32), math.floor(obj.y / 32))
+                                sleep(100)
+                                reconnect(strW1, strWid1, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                            while inventory:getItemCount(seedId1) <= 0 and
+                                bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) do
+                                bot:collectObject(obj.oid, 10)
+                                sleep(100)
+                                reconnect(strW1, strWid1, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                        end
+                        if obj.id == seedId2 and inventory:getItemCount(seedId2) <= 0 then
+                            while not bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) and
+                                inventory:getItemCount(seedId2) <= 0 do
+                                bot:findPath(math.floor(obj.x / 32), math.floor(obj.y / 32))
+                                sleep(100)
+                                reconnect(strW1, strWid1, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                            while inventory:getItemCount(seedId2) <= 0 and
+                                bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) do
+                                bot:collectObject(obj.oid, 10)
+                                sleep(100)
+                                reconnect(strW1, strWid1, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                        end
+                        if inventory:getItemCount(seedId1) > 0 and inventory:getItemCount(seedId2) > 0 then
+                            break
+                        end
+                    end
+                elseif strW1 == lastingStr1 and (scanFloat(seedId1) <= 0 or scanFloat(seedId2) <= 0) then
+                    hookInfo("Out of stock in one of the seeds, Going to stop Bot")
+                    sleep(100)
+                    lastDrop(seedId1, seedId2, sprayId)
+                    sleep(100)
+                    bot:leaveWorld()
+                    sleep(100)
+                    bot:stopScript()
+                end
+            end
+        elseif modeStorage == "diff" and not onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed and not onlySpray then
+            if inventory:getItemCount(seedId1) <= 0 then
+                while not bot:isInWorld(strW1) do
+                    warping(strW1, strWid1)
+                    sleep(100)
+                end
+                if scanFloat(seedId1) > 0 and bot:isInWorld(strW1) then
+                    for _, obj in pairs(world:getObjects()) do
+                        if obj.id == seedId1 and inventory:getItemCount(seedId1) <= 0 then
+                            while not bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) and
+                                inventory:getItemCount(seedId1) <= 0 do
+                                bot:findPath(math.floor(obj.x / 32), math.floor(obj.y / 32))
+                                sleep(100)
+                                reconnect(strW1, strWid1, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                            while inventory:getItemCount(seedId1) <= 0 and
+                                bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) do
+                                bot:collectObject(obj.oid, 10)
+                                sleep(100)
+                                reconnect(strW1, strWid1, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                        end
+                        if inventory:getItemCount(seedId1) > 0 then
+                            break
+                        end
+                    end
+                elseif scanFloat(seedId1) <= 0 and strW1 == lastingStr1 then
+                    hookInfo("Out of stock at 1st seed, going to stop Bot")
+                    sleep(100)
+                    lastDrop(seedId1, seedId2, sprayId)
+                    sleep(100)
+                    bot:leaveWorld()
+                    sleep(100)
+                    bot:stopScript()
+                end
+            end
+            if inventory:getItemCount(seedId2) <= 0 then
+                while not bot:isInWorld(strW2) do
+                    warping(strW2, strWid2)
+                    sleep(100)
+                end
+                if scanFloat(seedId2) > 0 and bot:isInWorld(strW2) then
+                    for _, obj in pairs(world:getObjects()) do
+                        if obj.id == seedId2 and inventory:getItemCount(seedId2) <= 0 then
+                            while not bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) and
+                                inventory:getItemCount(seedId2) <= 0 do
+                                bot:findPath(math.floor(obj.x / 32), math.floor(obj.y / 32))
+                                sleep(100)
+                                reconnect(strW2, strWid2, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                            while inventory:getItemCount(seedId1) <= 0 and
+                                bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) do
+                                bot:collectObject(obj.oid, 10)
+                                sleep(100)
+                                reconnect(strW2, strWid2, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            end
+                        end
+                        if inventory:getItemCount(seedId2) > 0 then
+                            break
+                        end
+                    end
+                elseif scanFloat(seedId2) <= 0 and strW2 == lastingStr2 then
+                    hookInfo("Out of stock at 2nd seed, going to stop Bot")
+                    sleep(100)
+                    lastDrop(seedId1, seedId2, sprayId)
+                    sleep(100)
+                    bot:leaveWorld()
+                    sleep(100)
+                    bot:stopScript()
+                end
+            end
+        end
+        if (onlySpray or instantSpray) and not onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed then
+            while not bot:isInWorld(sprayW) do
+                warping(sprayW, sprayWid)
+                sleep(100)
+                reconnect(sprayW, sprayWid)
+            end
+            if scanFloat(sprayId) > 0 and bot:isInWorld(sprayW) then
+                for _, obj in pairs(world:getObjects()) do
+                    if obj.id == sprayId and inventory:getItemCount(sprayW) <= 0 then
+                        while not bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) and inventory:getItemCount(sprayId) <= 0 do
+                            bot:findPath(math.floor(obj.x / 32), math.floor(obj.y / 32))
+                            sleep(100)
+                            reconnect(sprayW, sprayWid, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                        end
+                        while inventory:getItemCount(sprayId) <= 0 and bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) do
+                            bot:collectObject(obj.oid, 10)
+                            sleep(100)
+                            reconnect(sprayW, sprayWid, math.floor(obj.x / 32), math.floor(obj.y / 32))
+                        end
+                    end
+                    if inventory:getItemCount(sprayId) > 0 then
+                        break
+                    end
+                end
+            elseif sprayW == lastingSpray and scanFloat(sprayId) <= 0 then
+                hookInfo("Out of stock item spray, Going to stop Bot")
+                sleep(100)
+                lastDrop(seedId1, seedId2, sprayId)
+                sleep(100)
+                bot:leaveWorld()
+                sleep(100)
+                bot:stopScript()
+            end
+        end
+    end
+end
+function workInSelectedMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
+    hookInfo("Working")
+    sleep(100)
+    print("Work with selected mode")
+    bot.auto_collect = false
+    bot.ignore_gems = true
+    for _, tile in pairs(world:getTiles()) do
+        check15, check10, check1 = getTile(tile.x + 2, tile.y+2), getTile(tile.x + 2, tile.y), getTile(tile.x, tile.y)
+        if not onlySpray and onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed then
+            if fastMode then
+                if check10.fg == 0 then
+                    while not tile:hasFlag(4096) and tile.fg == 0 and 0 ~= world:getTile(tile.x, tile.y + 1).fg and world:getTile(tile.x, tile.y).fg ~= seedId1 and world:getTile(tile.x, tile.y + 1).fg ~= seedId1 and world:hasAccess(tile.x, tile.y) ~= 0 and checkBlock(world:getTile(tile.x, tile.y)) do
+                        if #bot:getPath(tile.x,tile.y) > 5 then
+                            bot:findPath(tile.x+2, tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        else
+                            bot:moveTile(tile.x+2,tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        end
+                        if bot:isInTile(tile.x+2, tile.y) then
+                            for _, i in pairs(tileSplice) do
+                                local check1v5, check2v5 = getTile(bot.x+i, bot.y), getTile(bot.x+i, bot.y+2)
+                                if not check1v5:hasFlag(4096) and 0 == check1v5.fg and check1v5.fg ~= seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) then                                    
+                                    bot:place(bot.x+i, bot.y, seedId1)
+                                    sleep(delayFirstSeed == 0 and math.random(115,150) or delayFirstSeed)
+                                    reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                end
+                                if not check2v5:hasFlag(4096) and 0 == check2v5.fg  and check2v5.fg ~= seedId1 and world:hasAccess(bot.x + i, bot.y+2) ~= 0 and checkBlock(check2v5) then                                    
+                                    bot:place(bot.x+i, bot.y+2, seedId1)
+                                    sleep(delayFirstSeed == 0 and math.random(115,150) or delayFirstSeed)
+                                    reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                end
+                            end
+                        end
+                    end
+                elseif check1.fg == 0 then
+                    if not tile:hasFlag(4096) and tile.fg == 0 and tile.fg ~= seedId1 and world:hasAccess(tile.x, tile.y) ~= 0 and checkBlock(world:getTile(tile.x, tile.y)) then
+                        if #bot:getPath(tile.x,tile.y) > 5 then
+                            bot:findPath(tile.x, tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        else
+                            bot:moveTile(tile.x,tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        end
+                        if bot:isInTile(tile.x, tile.y) then
+                            bot:place(bot.x, bot.y, seedId1)
+                            sleep(delayFirstSeed == 0 and math.random(115,150) or delayFirstSeed)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        end
+                    end
+                end
+            else
+                if not tile:hasFlag(4096) and tile.fg == 0 and tile.fg ~= seedId1 and world:hasAccess(tile.x, tile.y) ~= 0 and checkBlock(world:getTile(tile.x, tile.y)) then
+                    if #bot:getPath(tile.x,tile.y) > 5 then
+                        bot:findPath(tile.x, tile.y)
+                        sleep(200)
+                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                    else
+                        bot:moveTile(tile.x,tile.y)
+                        sleep(200)
+                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                    end
+                    if bot:isInTile(tile.x, tile.y) then
+                        for i = 0, 2 do 
+                            local check1v5 = getTile(bot.x+i, bot.y)
+                            if not check1v5:hasFlag(4096) and 0 == check1v5.fg and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) then
+                                bot:place(bot.x+i, bot.y, seedId1)
+                                sleep(delayFirstSeed == 0 and math.random(115,150) or delayFirstSeed)
+                                reconnect(spliceW, spliceWid, tile.x, tile.y)
+                            end
+                        end
+                    end
+                end
+            end
+            if inventory:getItemCount(seedId1) <= 0 then
+                break
+            end
+        elseif not onlySpray and onlySpliceWithSecondSeed and not onlyPlantWithFirstSeed then 
+            if fastMode then
+                if check10.fg == seedId1 then
+                    while not tile:hasFlag(4096) and tile.fg == seedId1 and not tile:canHarvest() and world:hasAccess(tile.x, tile.y) ~= 0 and checkBlock(world:getTile(tile.x, tile.y)) do
+                        if #bot:getPath(tile.x,tile.y) > 5 then
+                            bot:findPath(tile.x+2, tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        else
+                            bot:moveTile(tile.x+2,tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        end
+                        if bot:isInTile(tile.x+2, tile.y) then
+                            for _, i in pairs(tileSplice) do
+                                local check1v5, check2v5 = getTile(bot.x+i, bot.y), getTile(bot.x+i, bot.y+2)
+                                if not check1v5:hasFlag(4096) and check1v5.fg == seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) and not check1v5:canHarvest() then
+                                    bot:place(bot.x+i, bot.y, seedId2)
+                                    sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
+                                    reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                end
+                                if not check2v5:hasFlag(4096) and check2v5.fg == seedId1 and world:hasAccess(bot.x + i, bot.y+2) ~= 0 and checkBlock(check2v5) and not check2v5:canHarvest() then
+                                    bot:place(bot.x+i, bot.y+2, seedId2)
+                                    sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
+                                    reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                end
+                            end
+                        end
+                    end
+                elseif check1.fg == seedId1 then
+                    if not tile:hasFlag(4096) and tile.fg == seedId1 and not tile:canHarvest() and world:hasAccess(tile.x, tile.y) ~= 0 and checkBlock(world:getTile(tile.x, tile.y)) then
+                        if #bot:getPath(tile.x,tile.y) > 5 then
+                            bot:findPath(tile.x, tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        else
+                            bot:moveTile(tile.x,tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        end
+                        if bot:isInTile(tile.x, tile.y) then
+                            bot:place(bot.x, bot.y, seedId2)
+                            sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        end
+                    end
+                end
+            else
+                if not tile:hasFlag(4096) and tile.fg == seedId1 and not tile:canHarvest() and world:hasAccess(tile.x, tile.y) ~= 0 and checkBlock(world:getTile(tile.x, tile.y)) then
+                    if #bot:getPath(tile.x,tile.y) > 5 then
+                        bot:findPath(tile.x, tile.y)
+                        sleep(200)
+                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                    else
+                        bot:moveTile(tile.x,tile.y)
+                        sleep(200)
+                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                    end
+                    if bot:isInTile(tile.x, tile.y) then
+                        for i = 0, 2 do 
+                            local check1v5 = getTile(bot.x+i, bot.y)
+                            if not check1v5:hasFlag(4096) and check1v5.fg == seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) and not check1v5:canHarvest() then
+                                bot:place(bot.x+i, bot.y, seedId2)
+                                sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
+                                reconnect(spliceW, spliceWid, tile.x, tile.y)
+                            end
+                        end
+                    end
+                end
+            end
+            if inventory:getItemCount(seedId2) <= 0 then
+                break
+            end
+        elseif not onlySpray and not onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed then --splice
+            if fastMode then
+                if check10.fg then
+                    while (tile.fg == 0 or (tile.fg == seedId1 and not tile:canHarvest()) or (instantSpray and tile.fg == seedIdToInstantSpray and not tile:canHarvest())) and not tile:hasFlag(4096) and checkBlock(world:getTile(tile.x, tile.y)) and world:hasAccess(tile.x, tile.y) ~= 0 do
+                        if #bot:getPath(tile.x,tile.y) > 5 then
+                            bot:findPath(tile.x+2, tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        else
+                            bot:moveTile(tile.x+2,tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        end
+                        if bot:isInTile(tile.x+2, tile.y) then
+                            if tile.fg == 0 then
+                                for _, i in pairs(tileSplice) do
+                                    local check1v5, check2v5 = world:getTile(bot.x+i, bot.y), world:getTile(bot.x+i, bot.y+2)
+                                    if 0 ~= world:getTile(bot.x + i, bot.y + 1).fg  and 0 == check1v5.fg and check1v5.fg ~= seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) then 
+                                        bot:place(bot.x+i, bot.y, seedId1)
+                                        sleep(delayFirstSeed == 0 and math.random(120,150) or delayFirstSeed)
+                                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                    end
+                                    if 0 ~= world:getTile(bot.x + i, bot.y + 3).fg and 0 == check2v5.fg and check2v5.fg ~= seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check2v5) then 
+                                        bot:place(bot.x+i, bot.y+2, seedId1)
+                                        sleep(delayFirstSeed == 0 and math.random(120,150) or delayFirstSeed)
+                                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                    end
+                                end
+                            elseif tile.fg == seedId1 then
+                                for _, i in pairs(tileSplice) do
+                                    local check1v5, check2v5 = world:getTile(bot.x+i, bot.y), world:getTile(bot.x+i, bot.y+2)
+                                    if 0 ~= world:getTile(bot.x + i, bot.y + 1).fg and check1v5.fg == seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) and not check1v5:canHarvest() then
+                                        bot:place(bot.x+i, bot.y, seedId2)
+                                        sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
+                                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                    end
+                                    if 0 ~= world:getTile(bot.x + i, bot.y + 3).fg  and check2v5.fg == seedId1 and world:hasAccess(bot.x + i, bot.y+2) ~= 0 and checkBlock(check2v5) and not check2v5:canHarvest() then
+                                        bot:place(bot.x+i, bot.y+2, seedId2)
+                                        sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
+                                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                    end
+                                end
+                            elseif tile.fg == seedIdToInstantSpray and instantSpray then
+                                for _, i in pairs(tileSplice) do
+                                    local check1v5, check2v5 =  world:getTile(bot.x+i, bot.y),  world:getTile(bot.x+i, bot.y+2)
+                                    if not check1v5:hasFlag(4096) and check1v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x + i, bot.y) ~= 0 and not check1v5:canHarvest() then
+                                        bot:place(bot.x+i, bot.y, sprayId)
+                                        sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
+                                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                    end
+                                    if not check2v5:hasFlag(4096) and check2v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x + i, bot.y+2) ~= 0 and not check2v5:canHarvest() then
+                                        bot:place(bot.x+i, bot.y+2, sprayId)
+                                        sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
+                                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                    end  
+                                end  
+                            end
+                        end
+                    end
+                else
+                    while (tile.fg == 0 or (tile.fg == seedId1 and not tile:canHarvest()) or (instantSpray and tile.fg == seedIdToInstantSpray and not tile:canHarvest())) and not tile:hasFlag(4096) and checkBlock(world:getTile(tile.x, tile.y)) and world:hasAccess(tile.x, tile.y) ~= 0 do
+                        if #bot:getPath(tile.x,tile.y) > 1 then
+                            bot:findPath(tile.x, tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        else
+                            bot:moveTile(tile.x,tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        end
+                        if bot:isInTile(tile.x, tile.y) then
+                            local check1v5, check2v5 = world:getTile(bot.x, bot.y), world:getTile(bot.x, bot.y+2)
+                            if tile.fg == 0 then
+                                if 0 == check1v5.fg and check1v5.fg ~= seedId1 and world:hasAccess(bot.x, bot.y) ~= 0 and checkBlock(check1v5) then
+                                    bot:place(bot.x, bot.y, seedId1)
+                                    sleep(delayFirstSeed == 0 and math.random(115,125) or delayFirstSeed)
+                                end
+                                if 0 == check2v5.fg and check2v5.fg ~= seedId1 and world:hasAccess(bot.x, bot.y+2) ~= 0 and checkBlock(check2v5) then
+                                    bot:place(bot.x, bot.y+2, seedId1)
+                                    sleep(delayFirstSeed == 0 and math.random(115,125) or delayFirstSeed)
+                                end
+                            elseif tile.fg == seedId1 then
+                                if check1v5.fg == seedId1 and world:hasAccess(bot.x, bot.y) ~= 0 and checkBlock(check1v5) and not check1v5:canHarvest() then
+                                    bot:place(bot.x, bot.y, seedId2)
+                                    sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
+                                end
+                                if check2v5.fg == seedId1 and world:hasAccess(bot.x, bot.y+2) ~= 0 and checkBlock(check2v5) and not check2v5:canHarvest() then
+                                    bot:place(bot.x, bot.y+2, seedId2)
+                                    sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
+                                end
+                            elseif tile.fg == seedIdToInstantSpray and instantSpray and not tile:canHarvest() then
+                                if check1v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x, bot.y) ~= 0 and not check1v5:canHarvest() then
+                                    bot:place(bot.x+i, bot.y, sprayId)
+                                    sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
+                                    reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                end
+                                if check2v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x, bot.y+2) ~= 0 and not check2v5:canHarvest() then
+                                    bot:place(bot.x+i, bot.y, sprayId)
+                                    sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
+                                    reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                end
+                            end
+                        end
+                    end
+                end
+            else --splice single
+                while (tile.fg == 0 or (tile.fg == seedId1 and not tile:canHarvest()) or (instantSpray and tile.fg == seedIdToInstantSpray and not tile:canHarvest())) and not tile:hasFlag(4096) and checkBlock(world:getTile(tile.x, tile.y)) and world:hasAccess(tile.x, tile.y) ~= 0 do
+                    if #bot:getPath(tile.x,tile.y) > 5 then
+                        bot:findPath(tile.x, tile.y)
+                        sleep(200)
+                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                    else
+                        bot:moveTile(tile.x,tile.y)
+                        sleep(200)
+                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                    end
+                    if bot:isInTile(tile.x, tile.y) then
+                        if tile.fg == 0 then
+                            for i = 0, 2 do
+                                local check1v5 = world:getTile(bot.x+i, bot.y)
+                                if 0 == check1v5.fg and check1v5.fg ~= seedId1 and world:hasAccess(bot.x, bot.y) ~= 0 and checkBlock(check1v5) then
+                                    bot:place(bot.x+i, bot.y, seedId1)
+                                    sleep(delayFirstSeed == 0 and math.random(115,125) or delayFirstSeed)
+                                end
+                            end
+                        elseif tile.fg == seedId1 then
+                            for i = 0, 2 do
+                                local check1v5 = world:getTile(bot.x+i, bot.y)
+                                if check1v5.fg == seedId1 and world:hasAccess(bot.x + i, bot.y) ~= 0 and checkBlock(check1v5) and not check1v5:canHarvest() then
+                                    bot:place(bot.x+i, bot.y, seedId2)
+                                    sleep(delaySecondSeed == 0 and math.random(120,150) or delaySecondSeed)
+                                    reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                end
+                            end
+                        elseif tile.fg == seedIdToInstantSpray and instantSpray then
+                            for i = 0, 2 do
+                                local check1v5 = world:getTile(bot.x+i, bot.y)
+                                if check1v5.fg == seedIdToInstantSpray and world:hasAccess(bot.x + i, bot.y) ~= 0 and not check1v5:canHarvest() then
+                                    bot:place(bot.x+i, bot.y, sprayId)
+                                    sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
+                                    reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                end
+                            end     
+                        end
+                    end
+                end
+            end
+            if (inventory:getItemCount(seedId1) <= 0 and inventory:getItemCount(seedId2) > 0) or (inventory:getItemCount(sprayId) <= 0 and instantSpray) then
+                break
+            elseif (inventory:getItemCount(seedId1) > 0 and inventory:getItemCount(seedId2) <= 0) or (inventory:getItemCount(sprayId) <= 0 and instantSpray) then
+                break
+            elseif (inventory:getItemCount(seedId1) <= 0 and inventory:getItemCount(seedId2) <= 0) or (inventory:getItemCount(sprayId) <= 0 and instantSpray) then
+                break
+            end
+        elseif onlySpray and not onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed then --semprot
+            if fastMode then
+                if  check10.fg == seedIdToOnlySpray then
+                    while not tile:hasFlag(4096) and tile.fg == seedIdToOnlySpray and not tile:canHarvest() and world:hasAccess(tile.x, tile.y) ~= 0 do
+                        if #bot:getPath(tile.x,tile.y) > 5 then
+                            bot:findPath(tile.x+2, tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        else
+                            bot:moveTile(tile.x+2,tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        end
+                        if bot:isInTile(tile.x+2, tile.y) then
+                            for _, i in pairs(tileSplice) do
+                                local check1v5, check2v5 = getTile(bot.x+i, bot.y), getTile(bot.x+i, bot.y+2)
+                                if not check1v5:hasFlag(4096) and check1v5.fg == seedIdToOnlySpray and world:hasAccess(bot.x + i, bot.y) ~= 0 and not check1v5:canHarvest() then
+                                    bot:place(bot.x+i, bot.y, sprayId)
+                                    sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
+                                    reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                end
+                                if not check2v5:hasFlag(4096) and check2v5.fg == seedIdToOnlySpray and world:hasAccess(bot.x + i, bot.y+2) ~= 0 and not check2v5:canHarvest() then
+                                    bot:place(bot.x+i, bot.y+2, sprayId)
+                                    sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
+                                    reconnect(spliceW, spliceWid, tile.x, tile.y)
+                                end
+                            end
+                        end
+                    end
+                elseif check1.fg == seedIdToOnlySpray then
+                    if not tile:hasFlag(4096) and tile.fg == seedIdToOnlySpray and not tile:canHarvest() and world:hasAccess(tile.x, tile.y) ~= 0 then
+                        if #bot:getPath(tile.x,tile.y) > 5 then
+                            bot:findPath(tile.x, tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        else
+                            bot:moveTile(tile.x,tile.y)
+                            sleep(200)
+                            reconnect(spliceW, spliceWid, tile.x, tile.y)
+                        end
+                        if bot:isInTile(tile.x, tile.y) then
+                            local check1v5, check2v5 = getTile(bot.x, bot.y), getTile(bot.x, bot.y+2)
+                            if not check1v5:hasFlag(4096) and check1v5.fg == seedIdToOnlySpray and world:hasAccess(bot.x, bot.y) ~= 0 and not check1v5:canHarvest() then
+                                bot:place(bot.x, bot.y, sprayId)
+                                sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
+                                reconnect(spliceW, spliceWid, tile.x, tile.y)
+                            end
+                            if not check2v5:hasFlag(4096) and check2v5.fg == seedIdToOnlySpray and world:hasAccess(bot.x, bot.y+2) ~= 0 and not check2v5:canHarvest() then
+                                bot:place(bot.x, bot.y+2, sprayId)
+                                sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
+                                reconnect(spliceW, spliceWid, tile.x, tile.y)
+                            end
+                        end
+                    end
+                end
+            else
+                if not tile:hasFlag(4096) and tile.fg == seedIdToOnlySpray and not tile:canHarvest() and world:hasAccess(tile.x, tile.y) ~= 0 then
+                    if #bot:getPath(tile.x,tile.y) > 5 then
+                        bot:findPath(tile.x, tile.y)
+                        sleep(200)
+                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                    else
+                        bot:moveTile(tile.x,tile.y)
+                        sleep(200)
+                        reconnect(spliceW, spliceWid, tile.x, tile.y)
+                    end
+                    if bot:isInTile(tile.x, tile.y) then
+                        for i = 0, 2 do 
+                            local check1v5 = getTile(bot.x+i, bot.y)
+                            if not check1v5:hasFlag(4096) and check1v5.fg == seedIdToOnlySpray and world:hasAccess(bot.x + i, bot.y) ~= 0 and not check1v5:canHarvest() then
+                                bot:place(bot.x+i, bot.y, sprayId)
+                                sleep(delaySpray == 0 and math.random(120,150) or delaySpray)
+                                reconnect(spliceW, spliceWid, tile.x, tile.y)
+                            end
+                        end
+                    end
+                end
+            end
+            if inventory:getItemCount(sprayId) <= 0 then
+                break
+            end
+        end
+    end
+end
+function selectMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
+    print("Selecting Mode")
+    sleep(100)
+    if onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed and not instantSpray then
+        while checkIn1() > 0 do
+            workInSelectedMode(seedId1, seedId2, sprayId,spliceW,spliceWid)
+            sleep(100)
+            if inventory:getItemCount(seedId1) <= 0 then
+                taking(seedId1, seedId2, sprayId)
+            end
+            sleep(100)
+            warping(spliceW,spliceWid)
+        end
+    elseif onlySpliceWithSecondSeed and not onlyPlantWithFirstSeed and not instantSpray then
+        while checkIn2(seedId1) > 0 do
+            workInSelectedMode(seedId1, seedId2, sprayId,spliceW,spliceWid)
+            sleep(100)
+            if inventory:getItemCount(seedId2) <= 0 then
+                taking(seedId1, seedId2, sprayId)
+            end
+            sleep(100)
+            warping(spliceW,spliceWid)  
+        end
+    elseif not onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed and not onlySpray then
+        while checkIn1() > 0 or checkIn2(seedId1) > 0 do
+            workInSelectedMode(seedId1, seedId2, sprayId,spliceW,spliceWid)
+            sleep(100)
+            if (inventory:getItemCount(seedId1) <= 0 or inventory:getItemCount(seedId2) <= 0) or (inventory:getItemCount(sprayId) <= 0 and instantSpray) then
+                taking(seedId1, seedId2, sprayId)
+            end
+            sleep(100)
+            warping(spliceW,spliceWid)
+        end
+    elseif onlySpray and not onlyPlantWithFirstSeed and not onlySpliceWithSecondSeed and not instantSpray then
+        while checkIn2(seedIdToOnlySpray) > 0 do
+            workInSelectedMode(seedId1, seedId2, sprayId,spliceW,spliceWid)
+            sleep(100)
+            if inventory:getItemCount(sprayId) <= 0 then
+                taking(seedId1, seedId2, sprayId)
+            end
+            sleep(100)
+            warping(spliceW,spliceWid)
+        end
+    end
+end
+
+--[[execution]]
+function main()
+    if AporiaStore == "https://discord.gg/cm3Bs8NxGk" and checkUser(getUsername()) then
+        while true do
+            for _, run in ipairs(calls()) do
+                local seedId1, seedId2, worldSplice, worldSpliceId, sprayId, lastSplice = run.seedId1, run.seedId2, run.worldSplice, run.worldSpliceId, run.sprayId, run.lastSplice
+                timeLapse()
+                sleep(100)
+                Looping()
+                sleep(100)
+                warping(worldSplice,worldSpliceId)
+                sleep(100)
+                if not nuked then
+                    hookInfo("Starting")
+                    sleep(100)
+                    tt = os.time()
+                    selectMode(seedId1, seedId2, sprayId, worldSplice, worldSpliceId)
+                    tt1 = os.time() - tt
+                    hookInfo("Finished")
+                    waktu[worldSplice] = math.floor(tt1 / 3600) .. ":" .. math.floor(tt1 % 3600 / 60)
+                    statusWorld[worldSplice] = "done"
+                    sleep(100)
+                    fossil(worldSplice)
+                elseif nuked then
+                    statusWorld[worldSplice] = "NUKED"
+                    sleep(100)
+                    nuked = false
+                    sleep(delayReconnect * 2)
+                end
+                if worldSplice < lastSplice then
+                    worldSplice = 0
+                    worldSplice = worldSplice + 1
+                else
+                    worldSplice = 1
+                    loopz = loopz + 1
+                end
+            end
+            if not loopMode then
+                for _, run in ipairs(calls()) do
+                    local seedId1, seedId2, sprayId = run.seedId1, run.seedId2, run.sprayId
+                    timeLapse()
+                    sleep(100)
+                    lastDrop(seedId1, seedId2, sprayId)
+                    sleep(100)
+                    if terminateOption == 1 then
+                        hookInfo("All worlds are finished, going to Removing bot")
+                        sleep(100)
+                        removeBot(bot.name())
+                    elseif terminateOption == 2 then
+                        hookInfo("All worlds are finished, going to AFK in EXIT")
+                        sleep(100)
+                        bot:leaveWorld()
+                        sleep(100)
+                        bot:stopScript()
+                    elseif terminateOption == 3 then
+                        hookInfo("All worlds are finished, going to Disconnect")
+                        sleep(100)
+                        bot:leaveWorld()
+                        sleep(100)
+                        bot:disconnect()
+                        sleep(100)
+                        bot:stopScript()
+                    end
+                end
+            end
+        end
+    else
+        bot:say("Key Not Found")
+        sleep(1000)
+        print("Key Not Found")
+        sleep(1000)
+        bot:stopScript()
+    end
+end
+main()then
             return i
         end
     end
