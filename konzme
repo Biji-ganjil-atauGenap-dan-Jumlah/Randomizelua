@@ -1158,7 +1158,7 @@ end
 
 --[[execution]]
 function main()
-    if AporiaStore == "https://discord.gg/cm3Bs8NxGk" and checkUser(getUsername()) then
+    if AporiaStore == "https://discord.gg/cm3Bs8NxGk" then
         while true do
             for _, run in ipairs(calls()) do
                 local seedId1, seedId2, worldSplice, worldSpliceId, sprayId, lastSplice = run.seedId1, run.seedId2, run.worldSplice, run.worldSpliceId, run.sprayId, run.lastSplice
