@@ -194,9 +194,9 @@ function fossil(list)
     return m
 end
 function timeLapse()
-    splcIngfo = ""
     for _, web in ipairs(calls()) do
-       local worldLz = web.worldSplice
+       worldLz = web.worldSplice
+       splcIngfo = ""
         if censorWorld then
             local pek = string.sub(worldLz,1,numberCensorWord)
             if pek then
@@ -1170,7 +1170,7 @@ function main()
                     sleep(delayReconnect * 2)
                 end
                 if worldSplice < lastSplice then
-                    worldSplice = 1
+                    worldSplice = 0
                     worldSplice = worldSplice + 1
                 else
                     worldSplice = 1
