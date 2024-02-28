@@ -967,11 +967,11 @@ function workInSelectedMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
                             if tile.fg == 0 then
                                 if 0 == check1v5.fg and check1v5.fg ~= seedId1 and world:hasAccess(bot.x, bot.y) ~= 0 and checkBlock(check1v5) then
                                     bot:place(bot.x, bot.y, seedId1)
-                                    sleep(delayFirstSeed == 0 and math.random(150,125) or delayFirstSeed)
+                                    sleep(delayFirstSeed == 0 and math.random(150,200) or delayFirstSeed)
                                 end
                                 if 0 == check2v5.fg and check2v5.fg ~= seedId1 and world:hasAccess(bot.x, bot.y+2) ~= 0 and checkBlock(check2v5) then
                                     bot:place(bot.x, bot.y+2, seedId1)
-                                    sleep(delayFirstSeed == 0 and math.random(150,125) or delayFirstSeed)
+                                    sleep(delayFirstSeed == 0 and math.random(150,200) or delayFirstSeed)
                                 end
                             elseif tile.fg == seedId1 then
                                 if check1v5.fg == seedId1 and world:hasAccess(bot.x, bot.y) ~= 0 and checkBlock(check1v5) and not check1v5:canHarvest() then
