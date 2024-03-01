@@ -944,13 +944,6 @@ function workInSelectedMode(seedId1, seedId2, sprayId, spliceW, spliceWid)
                             end
                         end
                     end
-                    if (inventory:getItemCount(seedId1) <= 0 and inventory:getItemCount(seedId2) > 0) or (inventory:getItemCount(sprayId) <= 0 and instantSpray) then
-                        break
-                    elseif (inventory:getItemCount(seedId1) > 0 and inventory:getItemCount(seedId2) <= 0) or (inventory:getItemCount(sprayId) <= 0 and instantSpray) then
-                        break
-                    elseif (inventory:getItemCount(seedId1) <= 0 and inventory:getItemCount(seedId2) <= 0) or (inventory:getItemCount(sprayId) <= 0 and instantSpray) then
-                        break
-                    end
                 else
                     while (tile.fg == 0 or (tile.fg == seedId1 and not tile:canHarvest()) or (instantSpray and tile.fg == seedIdToInstantSpray and not tile:canHarvest())) and not tile:hasFlag(4096) and checkBlock(world:getTile(tile.x, tile.y)) and world:hasAccess(tile.x, tile.y) ~= 0 do
                         if #bot:getPath(tile.x,tile.y) > 1 then
