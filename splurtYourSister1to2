@@ -643,7 +643,7 @@ function taking(seedId1, seedId2, sprayId)
                                 sleep(100)
                                 reconnect(strW2, strWid2, math.floor(obj.x / 32), math.floor(obj.y / 32))
                             end
-                            while inventory:getItemCount(seedId1) <= 0 and
+                            while inventory:getItemCount(seedId2) <= 0 and
                                 bot:isInTile(math.floor(obj.x / 32), math.floor(obj.y / 32)) do
                                 bot:collectObject(obj.oid, 10)
                                 sleep(100)
